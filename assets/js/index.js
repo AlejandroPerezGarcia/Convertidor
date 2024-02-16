@@ -25,7 +25,7 @@ const getGrafico = async () => {
   const datasets = [
     {
       label:
-        "historial de los últimos 10 días  " + tipoMoneda.value.toUpperCase(),
+        "historial de los últimos 30 días  " + tipoMoneda.value.toUpperCase(),
       borderColor: "rgb(255, 99, 132)",
       data,
     },
