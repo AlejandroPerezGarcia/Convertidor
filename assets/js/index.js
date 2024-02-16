@@ -36,7 +36,7 @@ const getGrafico = async () => {
 const formatearFecha = (fecha) => {
   console.log(fecha);
   const date = new Date(fecha);
-  return `${date.getDate()}/${date.getMonth()}`;
+  return `${date.getDate()}/${date.getMonth()+1}`;
 };
 
 const renderChart = async () => {
