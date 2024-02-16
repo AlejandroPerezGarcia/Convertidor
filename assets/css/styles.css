@@ -1,9 +1,14 @@
+body {
+  background-color: black;
+}
+
 * {
   padding: 0;
   margin: 0;
   box-sizing: border-box;
-  background-color: aquamarine;
 }
+
+
 
 .container-fluid {
   display: flex;
@@ -19,8 +24,9 @@ h1 {
 }
 
 .btn {
-  width: 200px;
+  width: 190px;
   margin-top: 30px;
+  margin-left: 32%;
 }
 
 .card {
@@ -30,6 +36,7 @@ h1 {
 
 .card-body {
   background-color: rgb(135, 126, 126);
+  width: 500px;
 }
 
 h5 {
@@ -47,3 +54,8 @@ p {
   padding-top: 20px;
   padding-bottom: 20px;
 }
+
+.grafico{
+  height: 800px;
+  width: 800px;
+  }

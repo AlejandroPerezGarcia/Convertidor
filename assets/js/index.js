@@ -3,51 +3,72 @@ const tipoMoneda = document.querySelector("select");
 const valorMoneda = document.querySelector("#valor-moneda");
 const valorIngresdo = document.querySelector("input");
 const button = document.querySelector("#btn");
+const ctx = document.getElementById("myChart");
+let myChart;
 
-// lee la Api
+// get api principal
 const getMoneda = async () => {
   const response = await fetch(`${apiURL}`);
   return await response.json();
 };
 
-// get para grafico 
+// get para grafico
 const getGrafico = async () => {
-  const url = apiURL + tipoMoneda.value 
-  const data = await fetch(`${url}`);
-  const prueba = await data.json()
-  console.log('desde grafico =>', prueba)
-}
+  const url = apiURL + tipoMoneda.value;
+  const res = await fetch(`${url}`);
+  const valorGrafico = await res.json();
+  const data = valorGrafico.serie.map((item) => item.valor);
+  const labels = valorGrafico.serie.map((item) => formatearFecha(item.fecha));
 
+  console.log(labels);
+
+  const datasets = [
+    {
+      label:
+        "historial de los últimos 10 días  " + tipoMoneda.value.toUpperCase(),
+      borderColor: "rgb(255, 99, 132)",
+      data,
+    },
+  ];
+  return { labels, datasets };
+};
+//Formatea fecha
+const formatearFecha = (fecha) => {
+  console.log(fecha);
+  const date = new Date(fecha);
+  return `${date.getDate()}/${date.getMonth()}`;
+};
+
+const renderChart = async () => {
+  const data = await getGrafico();
+  ctx.style.backgroundColor = "white";
+  const config = {
+    type: "line",
+    data: data,
+  };
+  if (myChart) {
+    myChart.destroy();
+  }
+  myChart = new Chart(ctx, config);
+};
 
 // pintar listado de monedas
 
 const renderMoneda = async (moneda) => {
-
-  //imprime los datos
   const datoMoneda = () => {
+    renderChart();
     let template = "";
     const resul = valorIngresdo.value / moneda[tipoMoneda.value].valor;
     template += `<h5>$ ${resul} </h5>`;
-    valorMoneda.innerHTML = template;    
+    valorMoneda.innerHTML = template;
   };
 
-
-
-  //boton buscar
+  //boton buscar tipo moneda
   button.addEventListener("click", () => {
     if (tipoMoneda.value === "dolar") {
       datoMoneda();
       getGrafico();
-    } else if (tipoMoneda.value === "uf") {
-      datoMoneda();
-      getGrafico();
-    } else if (tipoMoneda.value === "utm") {
-      datoMoneda();
-      getGrafico();
-    } else if (tipoMoneda.value === "bitcoin") {
-      datoMoneda();
-      getGrafico();
-    } else if (tipoMoneda.value === "euro") {
+    } else if (tipoMoneda.value === "uf" || "euro" || "utm" || "bitcoin") {
       datoMoneda();
       getGrafico();
     }
@@ -66,6 +87,4 @@ const main = async () => {
   }
 };
 
-
 main();
-
